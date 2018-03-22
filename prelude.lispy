@@ -1,0 +1,97 @@
+;; identity : a -> a
+(fun {identity x}
+     {x})
+
+;; constant : a -> b -> a
+(fun {constant x y}
+     {x})
+
+;; either : Bool -> Bool -> Bool
+(fun {either cond1 cond2}
+     { if cond1 { 1 } { cond2 }})
+
+;;;; Numbers ;;;;
+
+;; add : Num -> Num -> Num
+(fun {add x y}
+     {+ x y})
+
+;; subtract : Num -> Num -> Num
+(fun {subtract x y}
+     {- x y})
+
+;; multiply : Num -> Num -> Num
+(fun {multiply x y}
+     {* x y})
+
+;; divide : Num -> Num -> Num
+(fun {divide x y}
+     {/ x y})
+
+;;;; Lists ;;;;
+
+(def {nil} {})
+
+;; first : {a} -> a
+(fun {first xs}
+     {eval (head xs)})
+
+;; rest : {a} -> {a}
+(def {rest} tail)
+
+;; cons : a -> {a} -> {a}
+(fun {cons x xs}
+     {join (list x) xs})
+
+;; nil? : {a} -> Bool
+(fun {nil? xs}
+     { == xs {} })
+
+;; foldl : (a -> b -> b) -> b -> {a} -> b
+(fun {foldl fn acc xs}
+     { if (nil? xs)
+        { acc }
+        { foldl fn (fn (first xs) acc) (rest xs) }})
+
+;; foldr : (a -> b -> b) -> b -> {a} -> b
+(fun {foldr fn acc xs}
+     { foldl fn acc (reverse xs) })
+
+;; reverse : {a} -> {a}
+(fun {reverse xs}
+     { foldl cons nil xs })
+
+;; filter : (a -> Bool) -> {a} -> {a}
+(fun {filter f xs}
+     {foldr (\{x acc} {
+                 if (f x)
+                    {cons x acc}
+                    {acc}
+                 }) nil xs})
+
+;; map : (a -> b) -> {a} -> {b}
+(fun {map f xs}
+     { foldl (\{x acc} {cons (f x) acc}) nil xs })
+
+
+;; map2 : (a -> b -> c) -> {a} -> {b} -> {c}
+(fun {map2 f xs ys}
+     { if (either (nil? xs) (nil? ys))
+        { nil }
+        { cons ( f (first xs) (first ys) ) (map2 f (rest xs) (rest ys))}
+     })
+
+;; sum : {Num} -> Num
+(fun {sum xs}
+     {foldr add 0 xs})
+
+;; zip : {a} -> {b} -> {{a b}}
+(fun {zip xs ys}
+     {map2 pair xs ys})
+
+;; pair : a -> b -> {a b}
+(fun {pair x y}
+     {list x y})
+
+
+; vim:ft=lisp
