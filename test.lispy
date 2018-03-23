@@ -3,6 +3,10 @@
 (map print
     (list
         "Hello, World!"                  ;; => "Hello, World!"
+        (either true false)              ;; => 1
+        (both true false)                ;; => 0
+        (not true)                       ;; => 0
+        (neither true false)             ;; => 0
         (+ 1 2)                          ;; => 3
         (first { 1 2 3 4 5 })            ;; => 1
         (rest { 1 2 3 4 5 })             ;; => { 2 3 4 5 }

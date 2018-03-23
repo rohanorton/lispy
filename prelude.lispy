@@ -1,3 +1,10 @@
+(def {true} 1)
+(def {false} 0)
+
+;; flip : (a -> b -> c) -> b -> a -> c
+(fun {flip f a b}
+     {f b a})
+
 ;; identity : a -> a
 (fun {identity x}
      {x})
@@ -6,9 +13,23 @@
 (fun {constant x y}
      {x})
 
+(fun {compose f g x}
+     {f (g x)})
+
+(fun {not cond}
+     {if cond {false} {true}})
+
 ;; either : Bool -> Bool -> Bool
 (fun {either cond1 cond2}
-     { if cond1 { 1 } { cond2 }})
+     { if cond1 {true} {cond2}})
+
+;; both : Bool -> Bool -> Bool
+(fun {both cond1 cond2}
+     { if cond1 {cond2} {false}})
+
+;; neither : Bool -> Bool -> Bool
+(fun {neither cond1 cond2}
+      { not (both cond1 cond2) })
 
 ;;;; Numbers ;;;;
 
