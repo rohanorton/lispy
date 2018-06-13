@@ -2,8 +2,6 @@
 
 A lisp inspired language implemented in C.
 
-Basically this tutorial: http://www.buildyourownlisp.com/
-
 ```lisp
 (load "prelude.lispy")
 
